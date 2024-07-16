@@ -2,13 +2,13 @@
 
 ## Create an ALUMet plugin step by step
 
-The best way for a good understanding on how ALUMet's Plugin works is doing by yourself. So this chapter will create an input plugin which
-read random byte from a file.
+The best way to get a good understanding of how ALUMet's Plugin works is to do it yourself. So this chapter will create an input plugin, which
+read a random byte from a file.
 
 ### Create the plugin
 
-In order to create the plugin, we need to initialize a new library. So first, go to the root directory of ALUMet. You should have differents
-folders containing the differents plugins:
+In order to create the plugin, we need to initialize a new library. So first, go to the root directory of ALUMet. You should have different
+folders containing the different plugins:
 
 ```bash
 .
@@ -44,7 +44,7 @@ So let's create our plugin using:
 cargo init --lib my-plugin
 ```
 
-Now, go to the Cargo.toml at the root and you should see this new library:
+Now, go to the Cargo.toml at the root, and you should see this new library:
 
 ```toml
 [...]
@@ -91,7 +91,7 @@ pub struct Metrics {
 }
 ```
 
-For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and it's type is a *u64*
+For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId, and its type is an *u64*
 
 ### Implement Config
 
@@ -176,7 +176,7 @@ impl AlumetPlugin for ThePlugin {
 }
 ```
 
-So we define the name of the plugin, it's version, we use the default config by default and on init, we deserialize the config to
+So we define the name of the plugin, it's version, we use the default config by default and on initialization, we deserialize the config to
 take in count if there is a different config than the default one. The start function is here to register metrics, sources and output
 and the stop function is called after all the metrics, sources and output previously registered have been stopped and unregistered.
 As you can see, currently, we didn't fulfil the start function, let's focus on it now.
@@ -203,7 +203,7 @@ self.metrics = Some(Metrics {
 
 Now we have our metric, we need to add a Source to Alumet.
 
-The ThePluginSource structure will be used as buffer to retrieve values. We need to add this as ALUMet source:
+The ThePluginSource structure will be used as a buffer to retrieve values. We need to add this as ALUMet source:
 
 ```rust
 let initial_source = Box::new(ThePluginSource {
@@ -213,7 +213,7 @@ let initial_source = Box::new(ThePluginSource {
 alumet.add_source(initial_source, TriggerSpec::at_interval(self.config.poll_interval));
 ```
 
-In the code above, first, we create a source from ThePluginSource structure and then we add it to the alumet sources, adding the poll_interval
+In the code above, first, we create a source from ThePluginSource structure, and then we add it to the alumet sources, adding the poll_interval
 value previously defined in the config.
 
 Currently, you should have an error about your initial source, it's because the trait bound
@@ -232,7 +232,7 @@ impl Source for ThePluginSource {
 }
 ```
 
-This function is called by Alumet each time a measure is needed, so it's in this function that we need to retrieve value.
+This function is called by Alumet each time a measure is needed, so it's in this function that we need to retrieve the value.
 For this example, let's read data from the **/dev/urandom** file.
 Here is the code:
 
