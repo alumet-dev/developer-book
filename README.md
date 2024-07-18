@@ -15,4 +15,4 @@ cd user
 mdbook serve --open
 ```
 
-As explained in the [mdBook documentation](https://rust-lang.github.io/mdBook/guide/creating.html#creating-a-book), `serve --open` will build the book, start a local webserver and open the book in your default web browser. Modifying the source of the book will automatically reload the web page.
+As explained in the [mdBook documentation](https://rust-lang.github.io/mdBook/guide/creating.html#creating-a-book), `serve --open` will build the book, start a local web server and open the book in your default web browser. Modifying the source of the book will automatically reload the web page.

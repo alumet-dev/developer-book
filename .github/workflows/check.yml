@@ -1,0 +1,17 @@
+name: Check
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Spell check
+        uses: streetsidesoftware/cspell-action@v6
+        with:
+          root: src
+          incremental_files_only: false
+          config: .cspell/cspell.json
+          files: "**/*.md"
