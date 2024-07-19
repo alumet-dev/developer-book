@@ -6,8 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
         with:
@@ -15,3 +13,43 @@ jobs:
           incremental_files_only: false
           config: .cspell/cspell.json
           files: "**/*.md"
+
+  test:
+    runs-on: ubuntu-latest
+    outputs:
+      rust-version: ${{ steps.get-rust-version.outputs.rust-version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: "developer-book"
+      - uses: actions/checkout@v4
+        with:
+          repository: "alumet-dev/alumet"
+          path: "alumet"
+
+      - run: pwd && ls -l
+
+      - name: Install latest mdbook
+        run: |
+          tag=$(curl 'https://api.github.com/repos/rust-lang/mdbook/releases/latest' | jq -r '.tag_name')
+          url="https://github.com/rust-lang/mdbook/releases/download/${tag}/mdbook-${tag}-x86_64-unknown-linux-gnu.tar.gz"
+          mkdir mdbook
+          curl -sSL $url | tar -xz --directory=./mdbook
+          echo `pwd`/mdbook >> $GITHUB_PATH
+
+      - name: Setup rust toolchain
+        run: rustup toolchain install stable --profile minimal
+
+      - name: Output Rust version
+        id: get-rust-version
+        run: echo rust-version="$(rustc --version | awk '{print $2}' )" >> $GITHUB_OUTPUT
+
+      - name: Build alumet
+        run: "ls -l && cargo build --package alumet"
+        working-directory: alumet
+        env:
+          RUSTFLAGS: -Awarnings
+
+      - name: Run mdbook test
+        run: "ls -l && mdbook test --library-path ../alumet/target/debug,../alumet/target/debug/deps"
+        working-directory: developer-book
