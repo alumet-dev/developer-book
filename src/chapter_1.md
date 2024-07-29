@@ -76,7 +76,7 @@ To define our plugin, we need to create a Rust structure: **ThePlugin**. This st
 Let's take an easy structure having 2 fields: config and metrics. Config will contain the configuration of the plugin and metrics which
 will contain all related metrics.
 
-```rust
+```rust,ignore
 pub struct ThePlugin {
     config: Config,
     metrics: Option<Metrics>,
@@ -85,7 +85,7 @@ pub struct ThePlugin {
 
 Let's define the Metrics structure:
 
-```rust
+```rust,ignore
 pub struct Metrics {
     a_metric: TypedMetricId<u64>,
 }
@@ -98,7 +98,7 @@ For now, the Metrics structure only contains field: *a_metric*. This is a TypedM
 As you can see, ThePlugin contains a Config value. This Config is a structure where you can define value of configuration for the plugin.
 Let's define it:
 
-```rust
+```rust,ignore
 #[derive(Serialize, Deserialize, Debug)]
 struct Config {
     #[serde(with = "humantime_serde")]
@@ -111,7 +111,7 @@ The poll_interval will be the time waited before two measurements. Feel free to 
 For ALUMet a Configuration structure needs to implement the **Default** trait, which define the default value if not modified by the user.
 Let's do it:
 
-```rust
+```rust,ignore
 impl Default for Config {
     fn default() -> Self {
         Self {
@@ -127,7 +127,7 @@ We have defined a duration for poll_interval at 1 second.
 
 First, let's create a ThePluginSource struct:
 
-```rust
+```rust,ignore
 #[derive(Debug)]
 struct ThePluginSource {
     random_byte: TypedMetricId<u64>,
@@ -146,7 +146,7 @@ defining some functions:
 
 Let's define these for our plugin:
 
-```rust
+```rust,ignore
 impl AlumetPlugin for ThePlugin {
     fn name() -> &'static str {
         "ThePlugin"
@@ -183,14 +183,14 @@ As you can see, currently, we didn't fulfil the start function, let's focus on i
 We want to create a new metrics to match with the Metrics structure's field. In this structure, we have one field: *a_metric*.
 First, we create a unit associated with the metric:
 
-```rust
+```rust,ignore
 let my_byte_unit: PrefixedUnit = PrefixedUnit { base_unit: Unit::Byte, prefix: UnitPrefix::Plain };
 ```
 
 Then, we use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
 of the metric, it's unit (created above), and the last argument is the description:
 
-```rust
+```rust,ignore
 let byte_metric = alumet.create_metric::<u64>(
         "random_byte",
         my_byte_unit,
@@ -205,7 +205,7 @@ Now we have our metric, we need to add a Source to Alumet.
 
 The ThePluginSource structure will be used as a buffer to retrieve values. We need to add this as ALUMet source:
 
-```rust
+```rust,ignore
 let initial_source = Box::new(ThePluginSource {
     random_byte: (self.metrics.expect("Can't read byte_metric")).a_metric,
 });
@@ -223,7 +223,7 @@ Currently, you should have an error about your initial source, it's because the 
 
 In this part, we will implement the Source trait for our ThePluginSource structure.
 
-```rust
+```rust,ignore
 impl Source for ThePluginSource {
     fn poll(&mut self, measurements: &mut MeasurementAccumulator, timestamp: Timestamp) -> Result<(), PollError> {
         ...
@@ -236,7 +236,7 @@ This function is called by Alumet each time a measure is needed, so it's in this
 For this example, let's read data from the **/dev/urandom** file.
 Here is the code:
 
-```rust
+```rust,ignore
 let mut rng = File::open("/dev/urandom")?; // Open the "/dev/urandom" file to obtain random data
 
 let mut buffer = [0u8; 8]; // Create a mutable buffer of type [u8; 8] (an array of 8 unsigned 8-bit integer)
@@ -250,7 +250,7 @@ We are now able to get the value. The next step is to send this value to ALUMet.
 In order to push data to alumet, we first need to create a measurement point and then push it to the MeasurementAccumulator.
 I also add as an example an attribute the same as value but divided by 2 :
 
-```rust
+```rust,ignore
 let my_meas_pt = MeasurementPoint::new(
     timestamp,
     self.random_byte,
@@ -280,13 +280,13 @@ my-plugin = {version= "0.1.0", path = "../my-plugin"}
 
 In the app-agent main file, import using use:
 
-```rust
+```rust,ignore
 use my_plugin::ThePlugin;
 ```
 
 And then add this newly imported plugin to the statics_plugins macro:
 
-```rust
+```rust,ignore
 let plugins = static_plugins![ThePlugin, CsvPlugin, SocketControlPlugin];
 ```
 
@@ -300,7 +300,7 @@ You can now build ALUMet.
 
 ## Final code
 
-```rust
+```rust,ignore
 use alumet::{
     measurement::{MeasurementAccumulator, MeasurementPoint, Timestamp},
     metrics::TypedMetricId,
