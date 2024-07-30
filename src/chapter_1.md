@@ -275,6 +275,23 @@ In this part, we will implement the Source trait for our ThePluginSource structu
 # }
 impl Source for ThePluginSource {
     fn poll(&mut self, measurements: &mut MeasurementAccumulator, timestamp: Timestamp) -> Result<(), PollError> {
+        let mut rng = File::open("/dev/urandom")?; // Open the "/dev/urandom" file to obtain random data
+
+        let mut buffer = [0u8; 8]; // Create a mutable buffer of type [u8; 8] (an array of 8 unsigned 8-bit integer)
+        rng.read_exact(&mut buffer)?; // Read enough byte from the file and store the value in the buffer
+        let value = u64::from_le_bytes(buffer);
+
+        // Print the value of the first byte in the buffer
+        let my_meas_pt = MeasurementPoint::new(
+            timestamp,
+            self.random_byte,
+            Resource::LocalMachine,
+            ResourceConsumer::LocalMachine,
+            value,
+        )
+        .with_attr("double", value.div_euclid(2));
+        measurements.push(my_meas_pt);
+
         Ok(())
     }
 }
