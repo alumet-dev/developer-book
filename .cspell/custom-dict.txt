@@ -18,8 +18,5 @@ rustc
 sysfs
 toolchain
 UCUM
-struct
-serde
 humantime
 urandom
-println
