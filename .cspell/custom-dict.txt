@@ -2,6 +2,7 @@ alumet
 Atos
 Eviden
 github
+humantime
 jetson
 jetsons
 libc
@@ -16,7 +17,5 @@ regen
 runnable
 rustc
 sysfs
-toolchain
 UCUM
-humantime
 urandom
