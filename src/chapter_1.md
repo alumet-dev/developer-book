@@ -182,7 +182,20 @@ impl AlumetPlugin for ThePlugin {
 
     // The start function is here to register metrics, sources and output.
     fn start(&mut self, alumet: &mut alumet::plugin::AlumetPluginStart) -> anyhow::Result<()> {
-        todo!()
+        let my_byte_unit: PrefixedUnit = PrefixedUnit {
+            base_unit: Unit::Byte,
+            prefix: UnitPrefix::Plain,
+        };
+
+        let byte_metric = alumet.create_metric::<u64>("random_byte", my_byte_unit, "Byte randomly get")?;
+        self.metrics = Some(Metrics { a_metric: byte_metric });
+
+        let initial_source = Box::new(ThePluginSource {
+            random_byte: (self.metrics.as_ref().expect("Can't read byte_metric")).a_metric,
+        });
+
+        alumet.add_source(initial_source, TriggerSpec::at_interval(self.config.poll_interval));
+        Ok(())
     }
 
     // The stop function is called after all the metrics, sources and output previously 
