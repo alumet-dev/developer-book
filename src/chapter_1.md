@@ -44,15 +44,10 @@ So let's create our plugin using:
 cargo init --lib my-plugin
 ```
 
-Now, go to the Cargo.toml at the root, and you should see this new library:
+Now, add this new library:
 
-```toml
-[...]
-members = [
-    "alumet",
-    [...]
-    "my-plugin",
-]
+```bash
+cargo add my-plugin --path ../my-plugin 
 ```
 
 Now, you can fulfil the TOML of the newly created library with data you want. For example:
@@ -76,22 +71,14 @@ To define our plugin, we need to create a Rust structure: **ThePlugin**. This st
 Let's take an easy structure having 2 fields: config and metrics. Config will contain the configuration of the plugin and metrics which
 will contain all related metrics.
 
-```rust,ignore
-pub struct ThePlugin {
-    config: Config,
-    metrics: Option<Metrics>,
-}
+```rust,no_run,noplayground 
+{{#include plugin_example.rs:27:30}}
 ```
 
 Let's define the Metrics structure:
 
-```rust
-# extern crate alumet;
-# use alumet::metrics::TypedMetricId;
-
-pub struct Metrics {
-    a_metric: TypedMetricId<u64>,
-}
+```rust,no_run,noplayground 
+{{#include plugin_example.rs:23:25}}
 ```
 
 For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and its type is an *u64*
