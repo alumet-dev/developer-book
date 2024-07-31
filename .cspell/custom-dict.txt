@@ -8,7 +8,6 @@ jetsons
 libc
 LIG
 mdbook
-mypluginsource
 NVIDIA
 perf
 perf-events
