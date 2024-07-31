@@ -44,14 +44,14 @@ jobs:
         id: get-rust-version
         run: echo rust-version="$(rustc --version | awk '{print $2}' )" >> $GITHUB_OUTPUT
 
-      - name: Build alumet
-        run: "ls -l && cargo build --package alumet"
-        working-directory: alumet
+      - name: build app-agent
+        run: |
+          cd ./alumet/app-agent/ && cargo build
         env:
           RUSTFLAGS: -Awarnings
 
       - name: Run mdbook test
         run: |
           export CARGO_PKG_VERSION="0.1.0"
-          "ls -l && mdbook test --library-path ../alumet/target/debug,../alumet/target/debug/deps"
+          ls -l && mdbook test --library-path ../alumet/target/debug,../alumet/target/debug/deps
         working-directory: developer-book
