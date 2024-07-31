@@ -1,13 +1,13 @@
 # Chapter 1
 
-## Create an ALUMet plugin step by step
+## Create an Alumet plugin step by step
 
-The best way to get a good understanding of how ALUMet's Plugin works is to do it yourself. So this chapter will create an input plugin, which
+The best way to get a good understanding of how Alumet's Plugin works is to do it yourself. So this chapter will create an input plugin, which
 read a random byte from a file.
 
 ### Create the plugin
 
-In order to create the plugin, we need to initialize a new library. So first, go to the root directory of ALUMet. You should have different
+In order to create the plugin, we need to initialize a new library. So first, go to the root directory of Alumet. You should have different
 folders containing the different plugins:
 
 ```bash
@@ -99,7 +99,7 @@ Let's define it:
 
 The poll_interval will be the time between two measurements. Feel free to add new element in the configuration if needed.
 
-For ALUMet a Configuration structure needs to implement the `Default` trait, which define the default value if not modified by the user.
+For Alumet a Configuration structure needs to implement the `Default` trait, which define the default value if not modified by the user.
 Let's do it:
 
 ```rust
@@ -113,10 +113,10 @@ The default value of poll_interval is a duration of 1 second.
 First, let's create a MyPluginSource struct:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:mypluginsource}}
+{{#rustdoc_include plugin_example.rs:MyPluginSource}}
 ```
 
-We have a structure: **MyPlugin** let's implement the `AlumetPlugin` trait, this will transform our structure in an ALUMet plugin
+We have a structure: **MyPlugin** let's implement the `AlumetPlugin` trait, this will transform our structure in an Alumet plugin
 defining some functions:
 
 - name()
@@ -149,7 +149,7 @@ of the metric, its unit (created above) and the last argument is the description
 
 Now that we have our metric, we need to add a Source to Alumet.
 
-The MyPluginSource structure will be used as a buffer to retrieve values. We need to add this as ALUMet source:
+The MyPluginSource structure will be used as a buffer to retrieve values. We need to add this as Alumet source:
 
 ```rust
 {{#rustdoc_include plugin_example.rs:source}}
@@ -176,7 +176,7 @@ Here is the code:
 
 > N.b. This will only work on UNIX like OS which does have a file at "/dev/urandom"
 
-We are now able to get the value. The next step is to send this value to ALUMet.
+We are now able to get the value. The next step is to send this value to Alumet.
 In order to push data to alumet, we first need to create a measurement point and then push it to the MeasurementAccumulator.
 I also add as an example an attribute the same as value but divided by 2:
 
@@ -229,7 +229,15 @@ In this example, we have 3 plugins used by the app-agent:
 - CsvPlugin
 - SocketControlPlugin
 
-You can now build ALUMet.
+You can now build Alumet.
+
+## Good practices
+
+In this example, all the code is in one file. As a real plugin could be more complex with more code, separate your 
+code in several files is a good option. You can separate as you prefer but here is an example.
+- File1: All about the plugin,...
+- File2: All about the poll function, creation of measurementPoint,...  
+- File3: All about the value, how to retrieve, process,.. them.
 
 ## Final code
 

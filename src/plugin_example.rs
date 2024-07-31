@@ -44,12 +44,12 @@ impl Default for Config {
     }
 }
 // ANCHOR_END: impl_default_config
-// ANCHOR: mypluginsource
+// ANCHOR: MyPluginSource
 #[derive(Debug)]
 struct MyPluginSource {
     random_byte: TypedMetricId<u64>,
 }
-// ANCHOR_END: mypluginsource
+// ANCHOR_END: MyPluginSource
 // ANCHOR: implAlumetPlugin
 impl AlumetPlugin for MyPlugin {
     // So we define the name of the plugin.
