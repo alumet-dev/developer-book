@@ -8,6 +8,7 @@ jetsons
 libc
 LIG
 mdbook
+mypluginsource
 NVIDIA
 perf
 perf-events
@@ -16,6 +17,7 @@ RAPL
 regen
 runnable
 rustc
+rustdoc
 sysfs
 UCUM
 urandom

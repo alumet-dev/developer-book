@@ -51,5 +51,7 @@ jobs:
           RUSTFLAGS: -Awarnings
 
       - name: Run mdbook test
-        run: "ls -l && CARGO_PKG_VERSION=1.0 mdbook test --library-path ../alumet/target/debug,../alumet/target/debug/deps"
+        run: |
+          export CARGO_PKG_VERSION="0.1.0"
+          "ls -l && mdbook test --library-path ../alumet/target/debug,../alumet/target/debug/deps"
         working-directory: developer-book
