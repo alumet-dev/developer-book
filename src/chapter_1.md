@@ -47,10 +47,8 @@ cargo init --lib my-plugin
 Now, go to the Cargo.toml at the root and you should see this new library:
 
 ```toml
-[...]
 members = [
     "alumet",
-    [...]
     "my-plugin",
 ]
 ```
@@ -65,7 +63,6 @@ edition = "2021"
 
 [dependencies]
 alumet = { path = "../alumet" }
-...
 ```
 
 ### Implement MyPlugin
