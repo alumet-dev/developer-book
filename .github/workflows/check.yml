@@ -46,7 +46,8 @@ jobs:
 
       - name: build app-agent
         run: |
-          cd ./alumet/app-agent/ && cargo build
+          cargo build
+        working-directory: alumet/app-agent
         env:
           RUSTFLAGS: -Awarnings
 
