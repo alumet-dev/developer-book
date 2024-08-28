@@ -74,13 +74,13 @@ Let's take an easy structure having 2 fields: config and metrics. Config will co
 will contain all related metrics.
 
 ```rust 
-{{#rustdoc_include plugin_example.rs:MyPlugin_Struct}}
+{{#include ../code/plugin_example.rs:MyPlugin_Struct}}
 ```
 
 Let's define the Metrics structure:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:Metrics}}
+{{#include ../code/plugin_example.rs:Metrics}}
 ```
 
 For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and its type is an *u64*
@@ -91,7 +91,7 @@ As you can see, MyPlugin contains a Config value. This Config is a structure whe
 Let's define it:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:Config}}
+{{#include ../code/plugin_example.rs:Config}}
 ```
 
 The poll_interval will be the time between two measurements. Feel free to add new element in the configuration if needed.
@@ -100,7 +100,7 @@ For Alumet a Configuration structure needs to implement the `Default` trait, whi
 Let's do it:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:impl_default_config}}
+{{#include ../code/plugin_example.rs:impl_default_config}}
 ```
 
 The default value of poll_interval is a duration of 1 second.
@@ -110,7 +110,7 @@ The default value of poll_interval is a duration of 1 second.
 First, let's create a MyPluginSource struct:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:MyPluginSource}}
+{{#include ../code/plugin_example.rs:MyPluginSource}}
 ```
 
 We have a structure: **MyPlugin** let's implement the `AlumetPlugin` trait, this will transform our structure in an Alumet plugin
@@ -126,7 +126,7 @@ defining some functions:
 Let's define these for our plugin:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:implAlumetPlugin}}
+{{#include ../code/plugin_example.rs:implAlumetPlugin}}
 ```
 
 Let's focus on the start function.
@@ -134,14 +134,14 @@ We want to create a new metric to match with the Metrics structure's field. In t
 First, we create a unit associated with the metric:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:createPrefixedUnit}}
+{{#include ../code/plugin_example.rs:createPrefixedUnit}}
 ```
 
 Then, we use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
 of the metric, its unit (created above) and the last argument is the description:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:createMetric}}
+{{#include ../code/plugin_example.rs:createMetric}}
 ```
 
 Now that we have our metric, we need to add a Source to Alumet.
@@ -149,7 +149,7 @@ Now that we have our metric, we need to add a Source to Alumet.
 The MyPluginSource structure will be used as a buffer to retrieve values. We need to add this as Alumet source:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:source}}
+{{#include ../code/plugin_example.rs:source}}
 ```
 
 Currently, you should have an error about your initial source, it's because the trait bound
@@ -160,7 +160,7 @@ Currently, you should have an error about your initial source, it's because the 
 In this part, we will implement the Source trait for our MyPluginSource structure.
 
 ```rust
-{{#rustdoc_include plugin_example.rs:implSource}}
+{{#include ../code/plugin_example.rs:implSource}}
 ```
 
 This function is called by Alumet each time a measure is needed, so it's in this function that we need to retrieve the value.
@@ -168,7 +168,7 @@ For this example, let's read data from the **/dev/urandom** file.
 Here is the code:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:readRandom}}
+{{#include ../code/plugin_example.rs:readRandom}}
 ```
 
 > N.b. This will only work on UNIX like OS which does have a file at "/dev/urandom"
@@ -178,13 +178,13 @@ In order to push data to alumet, we first need to create a measurement point and
 I also add as an example an attribute the same as value but divided by 2:
 
 ```rust
-{{#rustdoc_include plugin_example.rs:measurementPointNew}}
+{{#include ../code/plugin_example.rs:measurementPointNew}}
 ```
 
 So final code of `poll` function is:
 
 ```rust,ignore
-{{#rustdoc_include plugin_example.rs:pollFunction}}
+{{#include ../code/plugin_example.rs:pollFunction}}
 ```
 
 ### Add to the app-agent
@@ -239,5 +239,5 @@ code in several files is a good option. You can separate as you prefer but here 
 ## Final code
 
 ```rust
-{{#rustdoc_include plugin_example.rs:all}}
+{{#rustdoc_include ../code/plugin_example.rs:all}}
 ```

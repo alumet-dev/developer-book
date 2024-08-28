@@ -32,7 +32,7 @@ pub struct Metrics {
 // ANCHOR: MyPlugin_Struct
 pub struct MyPlugin {
     config: Config,
-    metrics: Option<Metrics>,
+    metrics: Metrics,
 }
 // ANCHOR_END: MyPlugin_Struct
 // ANCHOR: impl_default_config
@@ -73,7 +73,7 @@ impl AlumetPlugin for MyPlugin {
         let config = deserialize_config(config)?;
         Ok(Box::new(MyPlugin {
             config,
-            metrics: None,
+            metrics: Metrics{},
         }))
     }
 
@@ -87,10 +87,10 @@ impl AlumetPlugin for MyPlugin {
         // ANCHOR_END: createPrefixedUnit
         // ANCHOR: createMetric
         let byte_metric =
-            alumet.create_metric::<u64>("random_byte", my_byte_unit, "Byte randomly get")?;
-        self.metrics = Some(Metrics {
+            alumet.create_metric::<u64>("random_byte", my_byte_unit, "A random number")?;
+        self.metrics = Metrics {
             a_metric: byte_metric,
-        });
+        };
         // ANCHOR_END: createMetric
         // ANCHOR: source
         // We create a source from ThePluginSource structure.
@@ -129,7 +129,7 @@ impl Source for MyPluginSource {
         let value = u64::from_le_bytes(buffer);
         // ANCHOR_END: readRandom
         // ANCHOR: measurementPointNew
-        let my_meas_pt = MeasurementPoint::new(
+        let measurement = MeasurementPoint::new(
             timestamp,
             self.random_byte,
             Resource::LocalMachine,
@@ -137,7 +137,7 @@ impl Source for MyPluginSource {
             value,
         )
         .with_attr("double", value.div_euclid(2));
-        measurements.push(my_meas_pt);
+        measurements.push(measurement );
         // ANCHOR_END: measurementPointNew
 
         Ok(())
