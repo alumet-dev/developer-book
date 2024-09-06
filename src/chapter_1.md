@@ -2,8 +2,7 @@
 
 ## Create an Alumet plugin step by step
 
-The best way to get a good understanding of how Alumet's Plugin works is to do it yourself. So this chapter will create an input plugin, which
-read a random byte from a file.
+The best way to get a good understanding of how Alumet's Plugin works is to do it yourself. So this chapter will create an input plugin, which read a random byte from a file.
 
 ### Create the plugin
 
@@ -44,7 +43,7 @@ So let's create our plugin using:
 cargo init --lib my-plugin
 ```
 
-Now, go to the Cargo.toml at the root and you should see this new library:
+Now, go to the **Cargo.toml** at the root and you should see this new library:
 
 ```toml
 members = [
@@ -67,16 +66,16 @@ alumet = { path = "../alumet" }
 
 ### Implement MyPlugin
 
-Let's go to the newly created folder containing the new library. We will use the lib.rs file.
+Let's go to the newly created folder containing the new library. We will use the **lib.rs** file.
 
 To define our plugin, we need to create a Rust structure: **MyPlugin**. This structure will contain all necessary for the plugin to work.
-Let's take an easy structure having 1 fields: config. Config will contain the configuration of the plugin.
+Let's take an easy structure having 1 fields: `config`. Config will contain the configuration of the plugin.
 
 ```rust,ignore 
 {{#rustdoc_include ../code/plugin_example.rs:MyPlugin_Struct}}
 ```
 
-For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and its type is an *u64*
+For now, the Metrics structure only contains field: `a_metric`. This is a `TypedMetricId` and its type is an `u64`
 
 ### Implement Config
 
@@ -96,11 +95,11 @@ Let's do it:
 {{#rustdoc_include ../code/plugin_example.rs:impl_default_config}}
 ```
 
-The default value of poll_interval is a duration of 1 second.
+The default value of `poll_interval` is a duration of 1 second.
 
 ### Implement AlumetPlugin
 
-First, let's create a MyPluginSource struct:
+First, let's create a `MyPluginSource` struct:
 
 ```rust,ignore
 {{#rustdoc_include ../code/plugin_example.rs:MyPluginSource}}
@@ -122,9 +121,9 @@ Let's define these for our plugin:
 {{#rustdoc_include ../code/plugin_example.rs:implAlumetPlugin}}
 ```
 
-Let's focus on the start function.
-We want to create a new metric to match with the Metrics structure's field. In this structure, we have one field: *a_metric*.
-We use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
+Let's focus on the `start` function.
+We want to create a new metric to match with the Metrics structure's field. In this structure, we have one field: `a_metric`.
+We use the `create_metric()` function of the `alumet::plugin::AlumetStart`. We specify the kind of value (`u64`), the name
 of the metric, its unit and the last argument is the description:
 
 ```rust,ignore
@@ -133,7 +132,7 @@ of the metric, its unit and the last argument is the description:
 
 Now that we have our metric, we need to add a Source to Alumet.
 
-The MyPluginSource structure will be used as a buffer to retrieve values. We need to add this as Alumet source:
+The `MyPluginSource` structure will be used as a buffer to retrieve values. We need to add this as Alumet source:
 
 ```rust,ignore
 {{#rustdoc_include ../code/plugin_example.rs:source}}
@@ -144,7 +143,7 @@ Currently, you should have an error about your initial source, it's because the 
 
 ### Implement Source
 
-In this part, we will implement the Source trait for our MyPluginSource structure.
+In this part, we will implement the Source trait for our `MyPluginSource` structure.
 
 ```rust,ignore
 {{#rustdoc_include ../code/plugin_example.rs:implSource}}
