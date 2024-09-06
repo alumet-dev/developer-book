@@ -73,14 +73,14 @@ To define our plugin, we need to create a Rust structure: **MyPlugin**. This str
 Let's take an easy structure having 2 fields: config and metrics. Config will contain the configuration of the plugin and metrics which
 will contain all related metrics.
 
-```rust 
-{{#include ../code/plugin_example.rs:MyPlugin_Struct}}
+```rust,ignore 
+{{#rustdoc_include ../code/plugin_example.rs:MyPlugin_Struct}}
 ```
 
 Let's define the Metrics structure:
 
-```rust
-{{#include ../code/plugin_example.rs:Metrics}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:Metrics}}
 ```
 
 For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and its type is an *u64*
@@ -90,8 +90,8 @@ For now, the Metrics structure only contains field: *a_metric*. This is a TypedM
 As you can see, MyPlugin contains a Config value. This Config is a structure where you can define value of configuration for the plugin.
 Let's define it:
 
-```rust
-{{#include ../code/plugin_example.rs:Config}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:Config}}
 ```
 
 The poll_interval will be the time between two measurements. Feel free to add new element in the configuration if needed.
@@ -99,8 +99,8 @@ The poll_interval will be the time between two measurements. Feel free to add ne
 For Alumet a Configuration structure needs to implement the `Default` trait, which define the default value if not modified by the user.
 Let's do it:
 
-```rust
-{{#include ../code/plugin_example.rs:impl_default_config}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:impl_default_config}}
 ```
 
 The default value of poll_interval is a duration of 1 second.
@@ -109,8 +109,8 @@ The default value of poll_interval is a duration of 1 second.
 
 First, let's create a MyPluginSource struct:
 
-```rust
-{{#include ../code/plugin_example.rs:MyPluginSource}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:MyPluginSource}}
 ```
 
 We have a structure: **MyPlugin** let's implement the `AlumetPlugin` trait, this will transform our structure in an Alumet plugin
@@ -125,31 +125,31 @@ defining some functions:
 
 Let's define these for our plugin:
 
-```rust
-{{#include ../code/plugin_example.rs:implAlumetPlugin}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:implAlumetPlugin}}
 ```
 
 Let's focus on the start function.
 We want to create a new metric to match with the Metrics structure's field. In this structure, we have one field: *a_metric*.
 First, we create a unit associated with the metric:
 
-```rust
-{{#include ../code/plugin_example.rs:createPrefixedUnit}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:createPrefixedUnit}}
 ```
 
 Then, we use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
 of the metric, its unit (created above) and the last argument is the description:
 
-```rust
-{{#include ../code/plugin_example.rs:createMetric}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:createMetric}}
 ```
 
 Now that we have our metric, we need to add a Source to Alumet.
 
 The MyPluginSource structure will be used as a buffer to retrieve values. We need to add this as Alumet source:
 
-```rust
-{{#include ../code/plugin_example.rs:source}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:source}}
 ```
 
 Currently, you should have an error about your initial source, it's because the trait bound
@@ -159,16 +159,16 @@ Currently, you should have an error about your initial source, it's because the 
 
 In this part, we will implement the Source trait for our MyPluginSource structure.
 
-```rust
-{{#include ../code/plugin_example.rs:implSource}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:implSource}}
 ```
 
 This function is called by Alumet each time a measure is needed, so it's in this function that we need to retrieve the value.
 For this example, let's read data from the **/dev/urandom** file.
 Here is the code:
 
-```rust
-{{#include ../code/plugin_example.rs:readRandom}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:readRandom}}
 ```
 
 > N.b. This will only work on UNIX like OS which does have a file at "/dev/urandom"
@@ -177,14 +177,14 @@ We are now able to get the value. The next step is to send this value to Alumet.
 In order to push data to alumet, we first need to create a measurement point and then push it to the MeasurementAccumulator.
 I also add as an example an attribute the same as value but divided by 2:
 
-```rust
-{{#include ../code/plugin_example.rs:measurementPointNew}}
+```rust,ignore
+{{#rustdoc_include ../code/plugin_example.rs:measurementPointNew}}
 ```
 
 So final code of `poll` function is:
 
 ```rust,ignore
-{{#include ../code/plugin_example.rs:pollFunction}}
+{{#rustdoc_include ../code/plugin_example.rs:pollFunction}}
 ```
 
 ### Add to the app-agent

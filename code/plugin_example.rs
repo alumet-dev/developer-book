@@ -82,7 +82,6 @@ impl AlumetPlugin for MyPlugin {
         // ANCHOR: createPrefixedUnit
         let my_byte_unit: PrefixedUnit = PrefixedUnit {
             base_unit: Unit::Byte,
-            prefix: UnitPrefix::Plain,
         };
         // ANCHOR_END: createPrefixedUnit
         // ANCHOR: createMetric
