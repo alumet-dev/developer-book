@@ -24,15 +24,9 @@ struct Config {
     poll_interval: Duration,
 }
 // ANCHOR_END: Config
-// ANCHOR: Metrics
-pub struct Metrics {
-    a_metric: TypedMetricId<u64>,
-}
-// ANCHOR_END: Metrics
 // ANCHOR: MyPlugin_Struct
 pub struct MyPlugin {
     config: Config,
-    metrics: Option<Metrics>,
 }
 // ANCHOR_END: MyPlugin_Struct
 // ANCHOR: impl_default_config
@@ -47,7 +41,7 @@ impl Default for Config {
 // ANCHOR: MyPluginSource
 #[derive(Debug)]
 struct MyPluginSource {
-    random_byte: TypedMetricId<u64>,
+    byte_metric: TypedMetricId<u64>,
 }
 // ANCHOR_END: MyPluginSource
 // ANCHOR: implAlumetPlugin
@@ -73,7 +67,6 @@ impl AlumetPlugin for MyPlugin {
         let config = deserialize_config(config)?;
         Ok(Box::new(MyPlugin {
             config,
-            metrics: None,
         }))
     }
 
@@ -82,14 +75,11 @@ impl AlumetPlugin for MyPlugin {
         // ANCHOR: createMetric
         let byte_metric =
             alumet.create_metric::<u64>("random_byte", Unit::Byte, "A random number")?;
-        self.metrics = Some(Metrics {
-            a_metric: byte_metric,
-        });
         // ANCHOR_END: createMetric
         // ANCHOR: source
         // We create a source from ThePluginSource structure.
         let initial_source = Box::new(MyPluginSource {
-            random_byte: (self.metrics.as_ref().expect("Can't read byte_metric")).a_metric,
+            byte_metric: byte_metric,
         });
 
         // Then we add it to the alumet sources, adding the poll_interval value previously defined in the config.
@@ -125,7 +115,7 @@ impl Source for MyPluginSource {
         // ANCHOR: measurementPointNew
         let measurement = MeasurementPoint::new(
             timestamp,
-            self.random_byte,
+            self.byte_metric,
             Resource::LocalMachine,
             ResourceConsumer::LocalMachine,
             value,

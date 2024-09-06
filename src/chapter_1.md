@@ -70,17 +70,10 @@ alumet = { path = "../alumet" }
 Let's go to the newly created folder containing the new library. We will use the lib.rs file.
 
 To define our plugin, we need to create a Rust structure: **MyPlugin**. This structure will contain all necessary for the plugin to work.
-Let's take an easy structure having 2 fields: config and metrics. Config will contain the configuration of the plugin and metrics which
-will contain all related metrics.
+Let's take an easy structure having 1 fields: config. Config will contain the configuration of the plugin.
 
 ```rust,ignore 
 {{#rustdoc_include ../code/plugin_example.rs:MyPlugin_Struct}}
-```
-
-Let's define the Metrics structure:
-
-```rust,ignore
-{{#rustdoc_include ../code/plugin_example.rs:Metrics}}
 ```
 
 For now, the Metrics structure only contains field: *a_metric*. This is a TypedMetricId and its type is an *u64*
