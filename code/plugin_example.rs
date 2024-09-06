@@ -79,7 +79,7 @@ impl AlumetPlugin for MyPlugin {
         // ANCHOR: source
         // We create a source from ThePluginSource structure.
         let initial_source = Box::new(MyPluginSource {
-            byte_metric: byte_metric,
+            byte_metric
         });
 
         // Then we add it to the alumet sources, adding the poll_interval value previously defined in the config.
