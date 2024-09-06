@@ -1,7 +1,7 @@
 {
     "version": "0.2",
     "language": "en",
-    "dictionaries": ["custom-dict"],
+    "dictionaries": ["custom-dict", "rust"],
     "dictionaryDefinitions": [
         {
             // The name of the dictionary is used to look it up.
