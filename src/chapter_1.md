@@ -131,14 +131,8 @@ Let's define these for our plugin:
 
 Let's focus on the start function.
 We want to create a new metric to match with the Metrics structure's field. In this structure, we have one field: *a_metric*.
-First, we create a unit associated with the metric:
-
-```rust,ignore
-{{#rustdoc_include ../code/plugin_example.rs:createPrefixedUnit}}
-```
-
-Then, we use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
-of the metric, its unit (created above) and the last argument is the description:
+We use the create_metric() function of the alumet::plugin::AlumetStart. We specify the kind of value (u64), the name
+of the metric, its unit and the last argument is the description:
 
 ```rust,ignore
 {{#rustdoc_include ../code/plugin_example.rs:createMetric}}

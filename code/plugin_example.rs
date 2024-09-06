@@ -32,7 +32,7 @@ pub struct Metrics {
 // ANCHOR: MyPlugin_Struct
 pub struct MyPlugin {
     config: Config,
-    metrics: Metrics,
+    metrics: Option<Metrics>,
 }
 // ANCHOR_END: MyPlugin_Struct
 // ANCHOR: impl_default_config
@@ -73,23 +73,18 @@ impl AlumetPlugin for MyPlugin {
         let config = deserialize_config(config)?;
         Ok(Box::new(MyPlugin {
             config,
-            metrics: Metrics{},
+            metrics: None,
         }))
     }
 
     // The start function is here to register metrics, sources and output.
     fn start(&mut self, alumet: &mut AlumetPluginStart) -> anyhow::Result<()> {
-        // ANCHOR: createPrefixedUnit
-        let my_byte_unit: PrefixedUnit = PrefixedUnit {
-            base_unit: Unit::Byte,
-        };
-        // ANCHOR_END: createPrefixedUnit
         // ANCHOR: createMetric
         let byte_metric =
-            alumet.create_metric::<u64>("random_byte", my_byte_unit, "A random number")?;
-        self.metrics = Metrics {
+            alumet.create_metric::<u64>("random_byte", Unit::Byte, "A random number")?;
+        self.metrics = Some(Metrics {
             a_metric: byte_metric,
-        };
+        });
         // ANCHOR_END: createMetric
         // ANCHOR: source
         // We create a source from ThePluginSource structure.
