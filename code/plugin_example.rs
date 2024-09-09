@@ -24,11 +24,13 @@ struct Config {
     poll_interval: Duration,
 }
 // ANCHOR_END: Config
+
 // ANCHOR: MyPlugin_Struct
 pub struct MyPlugin {
     config: Config,
 }
 // ANCHOR_END: MyPlugin_Struct
+
 // ANCHOR: impl_default_config
 impl Default for Config {
     fn default() -> Self {
@@ -38,12 +40,14 @@ impl Default for Config {
     }
 }
 // ANCHOR_END: impl_default_config
+
 // ANCHOR: MyPluginSource
 #[derive(Debug)]
 struct MyPluginSource {
     byte_metric: TypedMetricId<u64>,
 }
 // ANCHOR_END: MyPluginSource
+
 // ANCHOR: implAlumetPlugin
 impl AlumetPlugin for MyPlugin {
     // So we define the name of the plugin.
@@ -97,6 +101,7 @@ impl AlumetPlugin for MyPlugin {
     }
 }
 // ANCHOR_END: implAlumetPlugin
+
 // ANCHOR: implSource
 impl Source for MyPluginSource {
     // ANCHOR: pollFunction
