@@ -1,13 +1,29 @@
-# Chapter 1
+# Your first plugin
 
-## Create an Alumet plugin step by step
+The best way to get a good understanding of how Alumet plugins work is to crate one yourself!
+In this chapter, you will create your first plugin, which will produce random bytes.
 
-The best way to get a good understanding of how Alumet's Plugin works is to do it yourself. So this chapter will create an input plugin, which read a random byte from a file.
+## Creating the plugin crate
 
-### Create the plugin
+The first thing to do is to initialize a new crate for the plugin. Alumet plugins are not executables by themselves, they are library crates.
 
-In order to create the plugin, we need to initialize a new library. So first, go to the root directory of Alumet. You should have different
-folders containing the different plugins:
+You have two options:
+1. clone the official Alumet repository and develop there (best if you want to contribute to Alumet)
+2. work in your own repository (best if you want to be independent)
+
+### Creating the plugin in a clone of the official repository
+
+Clone the Alumet repository with SSH:
+```sh
+git clone git@github.com:alumet-dev/developer-book.git
+```
+
+Or with HTTPS:
+```sh
+git clone https://github.com/alumet-dev/developer-book.git
+```
+
+Open the root directory of Alumet. You should see several files and folders:
 
 ```bash
 .
@@ -17,54 +33,72 @@ folders containing the different plugins:
 ├── LICENSE.fr.txt
 ├── README.md
 ├── alumet/
-├── alumet-api-dynamic/
-├── alumet-api-macros/
-├── alumet-config.toml
-├── alumet-output.csv
 ├── app-agent/
-├── app-relay-collector/
 ├── plugin-csv/
-├── plugin-influxdb/
 ├── plugin-nvidia/
-├── plugin-oar2/
-├── plugin-perf/
 ├── plugin-rapl/
 ├── plugin-relay/
-├── plugin-socket-control/
 ├── target/
-├── test-dynamic-plugin-c/
-├── test-dynamic-plugin-rust/
-└── test-dynamic-plugins/
+├── ...
 ```
 
-So let's create our plugin using:
+Let's make a crate for your plugin! By convention, plugins contained in the main repository should be prefixed with `plugin-`:
 
 ```bash
-cargo init --lib my-plugin
+cargo init --lib plugin-example
 ```
 
-Now, go to the **Cargo.toml** at the root and you should see this new library:
+This will create a new directory named `plugin-example`, with some files in it.
+Cargo should also modify the root `Cargo.toml` to add your plugin to the list of `members`, like this:
 
 ```toml
 members = [
     "alumet",
-    "my-plugin",
+    # other crates here
+    "plugin-example",
 ]
 ```
 
-Now, you can fulfil the TOML of the newly created library with data you want. For example:
+Finally, use `cargo add` to declare some dependencies. Every plugin needs to depend on at least `alumet` and `anyhow`.
+
+```sh
+cargo add alumet anyhow
+```
+
+Make sure that the `alumet` dependency is local and does _not_ include a version number:
 
 ```toml
 [package]
-name = "my-plugin"
+name = "plugin-example"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-alumet = { path = "../alumet" }
+alumet = { path = "../alumet" } # LOCAL + NO VERSION
+anyhow = "1.0.88"
 ```
 
-### Implement MyPlugin
+### Creating the plugin in a separate repository
+
+Initialize a crate with cargo:
+
+```bash
+cargo init --lib plugin-example
+```
+
+Finally, use `cargo add` to declare some dependencies. Every plugin needs to depend on at least `alumet` and `anyhow`.
+
+```sh
+cargo add alumet anyhow
+```
+
+Since your plugin is not in the main repository of Alumet, the dependency on `alumet` will _not_ be local, but rather downloaded from `crates.io`.
+
+## Coding
+
+Now, the fun part: coding your plugin!
+
+### Implementing MyPlugin
 
 Let's go to the newly created folder containing the new library. We will use the **lib.rs** file.
 

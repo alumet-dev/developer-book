@@ -69,9 +69,7 @@ impl AlumetPlugin for MyPlugin {
     // to take in count if there is a different config than the default one.
     fn init(config: ConfigTable) -> anyhow::Result<Box<Self>> {
         let config = deserialize_config(config)?;
-        Ok(Box::new(MyPlugin {
-            config,
-        }))
+        Ok(Box::new(MyPlugin { config }))
     }
 
     // The start function is here to register metrics, sources and output.
@@ -82,9 +80,7 @@ impl AlumetPlugin for MyPlugin {
         // ANCHOR_END: createMetric
         // ANCHOR: source
         // We create a source from ThePluginSource structure.
-        let initial_source = Box::new(MyPluginSource {
-            byte_metric
-        });
+        let initial_source = Box::new(MyPluginSource { byte_metric });
 
         // Then we add it to the alumet sources, adding the poll_interval value previously defined in the config.
         alumet.add_source(
@@ -126,7 +122,7 @@ impl Source for MyPluginSource {
             value,
         )
         .with_attr("double", value.div_euclid(2));
-        measurements.push(measurement );
+        measurements.push(measurement);
         // ANCHOR_END: measurementPointNew
 
         Ok(())

@@ -17,6 +17,7 @@ regen
 runnable
 rustc
 rustdoc
+rustup
 sysfs
 UCUM
 urandom

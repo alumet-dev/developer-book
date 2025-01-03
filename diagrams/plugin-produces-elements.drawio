@@ -1,0 +1,59 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.3 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36" version="26.0.3">
+  <diagram name="Page-1" id="s5mgz4wlCjXy5TdnVwu9">
+    <mxGraphModel dx="691" dy="401" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="itMqianET0TcE9k58Pdj-1" value="Plugin" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="20" y="40" width="70" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-2" value="" style="endArrow=classic;html=1;rounded=0;curved=1;sketch=1;curveFitting=1;jiggle=1;disableMultiStroke=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="70" as="sourcePoint" />
+            <mxPoint x="140" y="50" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="120" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-3" value="" style="endArrow=classic;html=1;rounded=0;curved=1;sketch=1;curveFitting=1;jiggle=1;disableMultiStroke=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="90" as="sourcePoint" />
+            <mxPoint x="140" y="110" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="120" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-4" value="" style="endArrow=classic;html=1;rounded=0;curved=0;sketch=1;curveFitting=1;jiggle=1;disableMultiStroke=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="80" as="sourcePoint" />
+            <mxPoint x="140" y="80" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-6" value="source(s)" style="rounded=0;verticalAlign=middle;spacing=0;whiteSpace=wrap;html=1;fontSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=auto;shadow=0;sketch=1;curveFitting=1;jiggle=0.5;" parent="1" vertex="1">
+          <mxGeometry x="146" y="30" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-7" value="transform(s)" style="rounded=0;verticalAlign=middle;spacing=0;whiteSpace=wrap;html=1;fontSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=auto;shadow=0;sketch=1;curveFitting=1;jiggle=0.5;" parent="1" vertex="1">
+          <mxGeometry x="150" y="70" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="itMqianET0TcE9k58Pdj-8" value="output(s)" style="rounded=0;verticalAlign=middle;spacing=0;whiteSpace=wrap;html=1;fontSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=auto;shadow=0;sketch=1;curveFitting=1;jiggle=0.5;" parent="1" vertex="1">
+          <mxGeometry x="146" y="110" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="86W_KzDZpksKiuPDM1sH-1" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Alumet framework&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="10" y="150" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="86W_KzDZpksKiuPDM1sH-2" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;endWidth=4.77627471383975;endSize=1;startWidth=4.77627471383975;startSize=1.38996138996139;width=3.1660231660231664;simplification=0;disableMultiStroke=1;fillColor=none;gradientColor=none;gradientDirection=east;" edge="1" parent="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="54.94" y="147" as="sourcePoint" />
+            <mxPoint x="55" y="123" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="54.94" y="127" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

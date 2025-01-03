@@ -1,3 +1,12 @@
+# IDE settings
 .vscode/*
 !.vscode/cspell.json
+
+# Generated book
 book
+
+# Compiled code
+target/
+
+# Drawio temporary files
+diagrams/*.bkp

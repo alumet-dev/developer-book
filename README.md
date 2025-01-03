@@ -1,17 +1,22 @@
 # The ALUMET Developer Book
 
-This repository contains a guide for those who want to extend Alumet with plugins.
+This repository contains the "Alumet developer book", a guide for tinkerers, engineers and researchers who want to:
+- create new plugins for Alumet (to measure new things, for instance)
+- or/and contribute to the project
 
-The book is made with [mdBook](https://rust-lang.github.io/mdBook/).
+## Reading the book
+
+The book is available online (via GitHub pages) here: https://alumet-dev.github.io/user-book/
 
 ## Generating the book
+
+The book is made with [mdBook](https://rust-lang.github.io/mdBook/).
 
 First, you need to [install mdBook](https://rust-lang.github.io/mdBook/guide/installation.html#installation).
 
 Then, run `mdbook`.
 Example:
 ```sh
-cd user
 mdbook serve --open
 ```
 
