@@ -21,3 +21,12 @@ mdbook serve --open
 ```
 
 As explained in the [mdBook documentation](https://rust-lang.github.io/mdBook/guide/creating.html#creating-a-book), `serve --open` will build the book, start a local web server and open the book in your default web browser. Modifying the source of the book will automatically reload the web page.
+
+## Working with diagrams
+
+Some illustrations are made with [draw.io](https://www.drawio.com/).
+Every drawio file must be placed in the `diagrams` directory and converted to PNG images with the drawio app.
+Use the `regen-diagrams.sh` script to regenerate all the diagrams.
+The resulting images are in `src/resources/diagrams`.
+
+In the book (.md files), use the PNG images, not the drawio sources.

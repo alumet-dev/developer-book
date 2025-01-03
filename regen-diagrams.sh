@@ -12,3 +12,5 @@ find diagrams -name '*.drawio' -exec bash -c '
     echo "=== Exporting $file"
     drawio --export -f png --border 2 --scale 2 --output "./src/resources/${file%.*}.png" "$file"
 ' find-sh {} \;
+
+# todo générer les diagrammes dans un dossier temporaires puis remplacer tout src/resources/diagrams par ce dossier
