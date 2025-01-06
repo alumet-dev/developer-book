@@ -2,7 +2,7 @@ Welcome to the Alumet developer book! This book is for plugin developers and Alu
 
 Here, you can learn:
 - how to make Alumet measure new things (to support a new hardware component, for example)
-- how to implement a custom model on top of the measured data
+- how to implement a custom filter or estimation model on top of the measured data
 - how to implement new outputs for the data (to support a new database, for instance)
 - how to participate in the Alumet project
 

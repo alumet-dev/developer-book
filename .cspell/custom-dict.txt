@@ -21,3 +21,7 @@ rustup
 sysfs
 UCUM
 urandom
+asciinema
+multicore
+créer
+personnalisé

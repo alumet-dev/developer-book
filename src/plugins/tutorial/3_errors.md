@@ -1,5 +1,11 @@
 # Error handling
 
+In the previous chapter, we did not need to manage errors in a complicated way because there was almost no source of failure.
+Most of our functions returned `Ok(())`, and we used `?` to propagate errors, for example in `start`.
+
+In this chapter, you will discover how to handle errors in more realistic cases.
+If you are not familiar with Rust approach to error handling, please [read the corresponding chapter of the Rust book](https://doc.rust-lang.org/book/ch09-00-error-handling.html).
+
 ## Anyhow
 
 Alumet uses [`anyhow`](https://crates.io/crates/anyhow) to simplify error handling. It provides a "universal" error type `anyhow::Error`, which can wrap any error that implements the standard trait `std::error::Error`. In most cases, we simply replace `Result<T, E>` with `anyhow::Result<T>`.
@@ -41,9 +47,11 @@ fn init(config: ConfigTable) -> anyhow::Result<Box<Self>> {
 It is also possible to create an `anyhow::Error` "manually" with the `anyhow!` macro:
  
 ```rust,ignore
+use anyhow::anyhow;
+
 fn init(config: ConfigTable) -> anyhow::Result<Box<Self>> {
     if true { // for testing
-        return Err(anyow!("manual error here));
+        return Err(anyhow!("manual error here));
     }
     Ok(Box::new(ExamplePlugin))
 }
@@ -62,10 +70,27 @@ The precise semantics depend on the element. See:
 
 These error types can wrap any `anyhow::Error`, and default to the *fatal* kind.
 
-As an exercise, modify your source to fail:
+As an exercise, modify your source to fail with two different approaches:
 ```diff
 fn poll(...) -> Result<(), PollError> {
 +   return Err(anyhow!("cannot poll").into());
     // ...
 }
 ```
+
+```diff
+use alumet::pipeline::elements::error::PollRetry;
+
+fn poll(...) -> Result<(), PollError> {
++   return Err(anyhow!("cannot poll").retry_poll());
+    // ...
+}
+```
+
+## Panics
+
+As explained in the [Rust book](https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html), panics should not be used for reporting "regular" errors such as parsing invalid data.
+Panics should be used when you're in a state that cannot be handled, when continuing could be insecure or harmful.
+
+In particular, **avoid panicking in plugin's methods** like `start` or `stop`, because that would force the Alumet agent to crash.
+Use `Result` instead (see paragraph about Anyhow).

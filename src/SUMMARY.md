@@ -16,11 +16,11 @@
 - [Metric registration]() <!-- + best practices for naming metrics -->
 - [What makes a measurement point?]() <!-- resource, resource consumer -->
 - [Error handling for plugins]() <!-- anyhow -->
-- [Configuration managment]() <!-- serde, toml -->
+- [Configuration management]() <!-- serde, toml -->
 - [Shutdown]() <!-- pipeline elements are shutdown before stop() is called -->
 - [Gathering data with measurement sources]()
     - [Two kinds of source]() <!-- managed vs autonomous -->
-    - [Adding sources during startup]() <!-- add_source, config for Tigger -->
+    - [Adding sources during startup]() <!-- add_source, config for Trigger -->
     - [Adding sources later]() <!-- ControlHandle -->
 - [Processing with transform functions]() <!-- ?? -->
 - [Exporting data with outputs]()

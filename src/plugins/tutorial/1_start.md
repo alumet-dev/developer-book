@@ -18,7 +18,7 @@ Fork the Alumet repository on GitHub.
 
 ![](github-fork.png)
 
-Clone your work with `git clone` and open the root directory of Alumet.
+Clone your fork with `git clone` and open the root directory of Alumet.
 
 You should see several files and folders:
 
@@ -51,7 +51,8 @@ Cargo should also modify the root `Cargo.toml` to add your plugin to the list of
 ```toml
 members = [
     "alumet",
-    # other crates here
+    # ... other crates here
+    # the line below has been added automatically
     "plugin-example",
 ]
 ```

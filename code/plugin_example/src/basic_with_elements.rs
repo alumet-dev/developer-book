@@ -28,9 +28,14 @@ impl AlumetPlugin for ExamplePlugin {
         Ok(Box::new(ExamplePlugin))
     }
 
+    // ANCHOR: plugin_start
+    // ANCHOR: plugin_start_head
     fn start(&mut self, alumet: &mut AlumetPluginStart) -> anyhow::Result<()> {
         log::info("Hello!");
+        // ANCHOR_END: plugin_start_head
+
         // ANCHOR: create_source_metric
+        // Create the metric.
         let counter_metric = alumet.create_metric::<u64>(
             //                                      ^^^ type
             "example_source_call_counter", // name
@@ -38,12 +43,19 @@ impl AlumetPlugin for ExamplePlugin {
             "number of times the example source has been called", // description
         )?;
         // ANCHOR_END: create_source_metric
+        
         // ANCHOR: add_source
+        // Create the source
         let source = ExampleSource { metric: counter_metric, counter: 0 };
+        // Add the source to the measurement pipeline
         alumet.add_source(Box::new(source));
         // ANCHOR_END: add_source
+        
+        // ANCHOR: plugin_start_tail
         Ok(())
     }
+    // ANCHOR_END: plugin_start_tail
+    // ANCHOR_END: plugin_start
 
     fn stop(&mut self) -> anyhow::Result<()> {
         log::info("Bye!");

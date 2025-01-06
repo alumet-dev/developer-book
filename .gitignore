@@ -9,4 +9,5 @@ book
 target/
 
 # Drawio temporary files
-diagrams/*.bkp
+*.bkp
+src/resources/diagrams.bak
