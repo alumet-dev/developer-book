@@ -7,3 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 log = "0.4"
 alumet = { path = "../../../ALUMET-git/alumet" }
+serde = { version = "1.0.217", features = ["derive"] }

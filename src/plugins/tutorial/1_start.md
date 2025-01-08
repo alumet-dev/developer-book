@@ -107,7 +107,7 @@ To define a (static) Alumet plugin, you just need two things:
 
 Here is what it looks like:
 ```rust,ignore 
-{{#rustdoc_include ../../../code/plugin_example/src/basic.rs:all}}
+{{#rustdoc_include ../../../code/plugin_example/src/basic.rs}}
 ```
 
 Note that **the plugin structure is public**. It needs to be, otherwise agents (executable applications that perform the measurements with Alumet) won't be able to use the plugin. For now, the structure is empty. It can contain anything you want, in particular configuration options. We will show an example later.

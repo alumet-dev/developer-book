@@ -17,8 +17,17 @@ If you want learn how to use Alumet, for example to measure your energy consumpt
 
 You need to install Rust, Git, and a code editor/IDE.
 
-⚠️ A recent version of Rust is required (**at least 1.76** for now). You can run `rustc --version` to check your version. The easiest way to install a recent version of Rust is to use [rustup](https://rustup.rs/).
+<div class="warning">
+
+A recent version of Rust is required (**at least 1.76** for now). You can run `rustc --version` to check your version. The easiest way to install a recent version of Rust is to use [rustup](https://rustup.rs/).
+</div>
 
 To write Alumet plugins, a basic understanding of the Rust language is required. For simple plugins, you will _not_ need advanced features such as `Send` or `async`. Fundamental notions such as ownership, structures, packages and error handling will be useful.
 
 Are you ready? Let's measure!
+
+## Technical documentation
+
+This book is meant to be a guide for developers. It is not exhaustive and does not document every type nor function that Alumet provide. If you are looking for a particular function or technical feature, please read the [technical documentation of the `alumet` crate](https://docs.rs/alumet/latest/alumet/). It contains additional code examples. It is a good idea to have the documentation open alongside this book.
+
+Note: the "rustdoc" is only updated when a new release of the core of Alumet is released. To obtain the documentation of the latest code, clone the `alumet` repository and run `cargo doc --open`.

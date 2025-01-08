@@ -1,6 +1,7 @@
 Before writing code, let's understand what we are working on.
 
-## Measurement Pipeline
+## Functional View
+
 
 The following diagram, copied from the user book, shows a simplified view of what Alumet does.
 
@@ -11,7 +12,11 @@ For instance, Alumet can measure the energy consumption of your CPU and GPU. Wit
 It can then write the measured and estimated values to a file or database.
 
 This is a functional view that suits users well.
-But you, a developer, need to go behind the scenes! Here is another diagram that shows the (high-level) internal design of Alumet.
+But you, a developer, need to go behind the scenes! 
+
+## Measurement Pipeline
+
+Here is another diagram that shows the (high-level) internal design of Alumet.
 
 ![](../resources/diagrams/alumet-high-level-steps.png)
 

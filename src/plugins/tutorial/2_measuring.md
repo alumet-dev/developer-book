@@ -3,7 +3,7 @@
 For the moment, your plugin doesn't measure anything.
 You will now write your first "source" in order to obtain measurement points, that will be passed to the rest of the Alumet pipeline.
 
-For your first source, you will implement a simple counter that measures the number of times it has been polled.
+For your first source, you will implement a simple counter that measures the number of times it has been triggered.
 
 ## Counter source: the idea
 
@@ -24,20 +24,15 @@ Your plugin must create a new metric on startup (see below), store its id somewh
 
 ### What is a metric?
 
-Alumet can manage a large number of measurements that come from different sources implemented in multiple plugins.
-Its measurement pipeline does not carry raw values, but _measurement points_ which contain some metadata in addition to the raw value.
+A metric represents an "object", something that can be measured. In Alumet, the measurement pipeline does not carry raw values but _measurement points_, which contain some additional information. Every point contains a _metric id_, which associate it with the definition of a _metric_.
 
-In particular, we want to know what "object" is being measured, what kind of information is obtained: is it the temperature of an ACPI sensor? The energy consumed by the CPU? The memory reserved by a process? What is the associated unit? This knowledge is stored in a _metric_.
-
-Alumet offers a standard way of defining metrics, in a way that makes all the measurements useful and rigorous.
-As explained [in the docs](https://docs.rs/alumet/latest/alumet/metrics), a metric is defined by:
+Unlike some other tools, the list of metrics is not part of the framework: nothing is hard-coded. Plugins can create new metrics by following the standard model provided by Alumet. As explained [in the docs](https://docs.rs/alumet/latest/alumet/metrics), a metric is defined by:
 - a **unique name**
 - a **unit** of measurement (is it energy? time?) - Alumet follows the [UCUM (Unified Code for Units of Measure) standard](https://ucum.org/ucum).
 - a **type** of measured value (is it an integer? a float?)
 - a textual **description**
 
-For efficiency reasons, Alumet assigns a unique id to every metric, and uses this id instead of the full definition or name.
-Each _measurement point_ hence contains a _metric id_.
+Read more about metrics here: [Metrics & Measurements Points](../metrics_measurements.md)
 
 ### Creating a metric
 
@@ -71,58 +66,32 @@ Here are some examples:
 - good metric names: `acpi_zone_temperature`, `rapl_consumed_energy`, `estimated_gpu_power`, `kernel_cpu_usage`
 </div>
 
-### More than metrics
-
-Sometimes, we need a scope that is more precise than the metric definition.
-For instance, when measuring the use of the CPU by the OS kernel, we are interested in knowing the value per CPU core.
-
-This could be implemented by creating one metric for each case: `kernel_cpu_usage_core0`, `kernel_cpu_usage_core1`, ...
-Some monitoring software use this strategy (such as `collectd`).
-However, it is is too limiting: it complicates the operations that you can apply on the data (think of filters, aggregates, etc.), and it does not scale well when you have multidimensional information to add to the measurements (CPU core id, hostname, etc.).
-
-Therefore, we have chosen a different model for Alumet.
-First, arbitrary key-value pairs can be attached to a measurement point. We call them _attributes_.
-Second, two common pieces of information are always present in a measurement point: the _resource_ and _resource consumer_.
-
-- An **attribute** is a key-value pair that can be attached to a measurement point. Its content is completely arbitrary.
-- A **resource** is something that can be "utilized" or "consumed". It is usually related to a piece of hardware. For example, CPU cores and RAM are _resources_ to Alumet.
-- A **consumer** is something that uses a resource. It is usually a software component. For example, a process is a _resource consumer_ to Alumet.
-
-Attributes are optional, but the resource and consumer fields are mandatory.
-To summarise, a measurement point looks like this:
-
-![](../../resources/diagrams/alumet-measurement-points.png)
-
 ## Defining a simple source
 
 ### Implementing the counter source
 
 To define a source, define a structure and implement the `Source` trait on it (`alumet::pipeline::Source`).
 
-The core of Alumet will automatically call the `poll` method when it is time to do so.
-Each time a source is triggered (that is, its `poll` method is called), it can produce new measurement points and push them to the accumulator.
-
 ```rust,ignore
-{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements.rs:source_partial0}}
-    // TODO
-{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements.rs:source_partial1}}
-        todo!()
-{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements.rs:source_partial2}}
+{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements_empty.rs:source}}
 ```
 
-To implement `poll`, follow these steps:
+Complete the `poll` method by following these steps, and add the required fields along the way:
 1. Measure, i.e. obtain the measurements.
-    Here, we will simply increment a counter. The counter is part of the state of the source, hence it will be a field in the `ExampleSource` structure.
+    Here, we will simply increment a counter. The counter is part of the state of the source, hence it will be a field in the `ExampleSource` structure, of type `u64`.
 2. Create one `MeasurementPoint` for every measured value.
-    To do that, we need to know which metric we are measuring. The previously obtained `TypedMetricId` will be another field of the `ExampleSource` structure.
+    To do that, we need to know which metric we are measuring. The previously obtained metric id will be another field of the `ExampleSource` structure, of type `TypedMetricId`.
 3. Push the points to the `MeasurementAccumulator`.
 
+The result looks like this:
 ```rust,ignore
-{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements.rs:source}}
+{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements_source_without_config.rs:source}}
 ```
 
 Since our counter is not related to a particular _resource_ nor _consumer_, we use the special value `LocalMachine`.
 It indicates that it's a "global" measurement, with the whole machine as a scope (here, "machine" is intentionnaly not precisely defined: if you're in a VM, it represents the VM, if you're running on a bare-metal node, it's this node).
+
+Read more about the concept of _resource_ and _consumer_ here: [Metrics & Measurement Points](../metrics_measurements.md)
 
 ### Registering the counter source
 
@@ -130,5 +99,27 @@ Now that you have defined a source, you need to create it and add it to the Alum
 Do this in the `start` method of your plugin.
 
 ```rust,ignore
-{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements.rs:plugin_start}}
+{{#rustdoc_include ../../../code/plugin_example/src/basic_with_elements_source_without_config.rs:plugin_start}}
 ```
+
+Tip: you can click on the eye 👁️ icon to show the whole plugin code.
+
+To add the source to the pipeline, it is required to provide a `Trigger`.
+As its name implies, it will trigger the source in a certain way.
+Here, we use `time_interval` to build a `Trigger` that will call the source every second.
+
+## Final result
+
+Finally, you can test your plugin again by running the local agent:
+```sh
+cargo run --bin alumet-local-agent --features local_x86
+```
+
+Note how the source is automatically shut down by Alumet when you stop the agent.
+
+## A word about errors
+
+In this chapter, we did not need to manage errors in a complicated way because there was almost no source of failure.
+Most of our functions returned `Ok(())`, and we used `?` to propagate errors, for example in `start`.
+
+Please refer to [Error Handling in Plugins](../error_handling.md) to learn how to handle errors in more complex cases.

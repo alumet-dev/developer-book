@@ -1,6 +1,6 @@
-# Error handling
+# Error Handling for Plugins
 
-In the previous chapter, we did not need to manage errors in a complicated way because there was almost no source of failure.
+In the [plugin tutorial](../plugins/tutorial/0_intro.md), we did not need to manage errors in a complicated way because there was almost no source of failure.
 Most of our functions returned `Ok(())`, and we used `?` to propagate errors, for example in `start`.
 
 In this chapter, you will discover how to handle errors in more realistic cases.
@@ -8,7 +8,7 @@ If you are not familiar with Rust approach to error handling, please [read the c
 
 ## Anyhow
 
-Alumet uses [`anyhow`](https://crates.io/crates/anyhow) to simplify error handling. It provides a "universal" error type `anyhow::Error`, which can wrap any error that implements the standard trait `std::error::Error`. In most cases, we simply replace `Result<T, E>` with `anyhow::Result<T>`.
+Alumet uses [`anyhow`](https://crates.io/crates/anyhow) to simplify error handling in the plugin API. It provides a "universal" error type `anyhow::Error`, which can wrap any error that implements the standard trait `std::error::Error`. In most cases, we simply replace `Result<T, E>` with `anyhow::Result<T>`.
 
 Good practices:
 - Propagate errors with `?`.
@@ -92,5 +92,5 @@ fn poll(...) -> Result<(), PollError> {
 As explained in the [Rust book](https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html), panics should not be used for reporting "regular" errors such as parsing invalid data.
 Panics should be used when you're in a state that cannot be handled, when continuing could be insecure or harmful.
 
-In particular, **avoid panicking in plugin's methods** like `start` or `stop`, because that would force the Alumet agent to crash.
-Use `Result` instead (see paragraph about Anyhow).
+A general rule is: **avoid panicking in your plugin**. Use `Result` instead (see paragraph about Anyhow).
+If you panic in plugin's methods like `start` or `stop`, the Alumet agent will crash.

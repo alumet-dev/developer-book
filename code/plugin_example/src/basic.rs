@@ -1,9 +1,3 @@
-// extern crate alumet;
-// extern crate anyhow;
-// extern crate humantime_serde;
-// extern crate serde;
-
-// ANCHOR: all
 use alumet::plugin::{rust::AlumetPlugin, AlumetPluginStart, ConfigTable};
 
 pub struct ExamplePlugin;
@@ -26,13 +20,12 @@ impl AlumetPlugin for ExamplePlugin {
     }
 
     fn start(&mut self, alumet: &mut AlumetPluginStart) -> anyhow::Result<()> {
-        log::info("Hello!");
+        log::info!("Hello!");
         Ok(())
     }
 
     fn stop(&mut self) -> anyhow::Result<()> {
-        log::info("Bye!");
+        log::info!("Bye!");
         Ok(())
     }
 }
-// ANCHOR_END: all

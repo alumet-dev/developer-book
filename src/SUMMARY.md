@@ -7,15 +7,13 @@
 
 - [Your first plugin (tutorial)](./plugins/tutorial/0_intro.md)
     - [Basic setup](./plugins/tutorial/1_start.md)
-    - [Measuring with sources](./plugins/tutorial/2_measuring.md) <!-- todo a word about shutdown >
-    - [Error handling](./plugins/tutorial/3_errors.md)
-    - [Configuration management](./plugins/tutorial/4_config.md)
-    - [Transforming measurements](./plugins/tutorial/5_transforms.md)
-    - [Writing measurements](./plugins/tutorial/6_outputs.md)
+    - [Measuring with sources](./plugins/tutorial/2_measuring.md)
+    - [Configuration Management](./plugins/tutorial/3_config.md)
+    - [Transforming measurements](./plugins/tutorial/4_transforms.md)
+    - [Writing with outputs](./plugins/tutorial/5_outputs.md)
 
-- [Metric registration]() <!-- + best practices for naming metrics -->
-- [What makes a measurement point?]() <!-- resource, resource consumer -->
-- [Error handling for plugins]() <!-- anyhow -->
+- [Metrics & Measurement Points](./plugins/metrics_measurements.md)
+- [Error Handling for Plugins](./plugins/error_handling.md)
 - [Configuration management]() <!-- serde, toml -->
 - [Shutdown]() <!-- pipeline elements are shutdown before stop() is called -->
 - [Gathering data with measurement sources]()
