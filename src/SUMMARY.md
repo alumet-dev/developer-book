@@ -8,7 +8,7 @@
 - [Your first plugin (tutorial)](./plugins/tutorial/0_intro.md)
     - [Basic setup](./plugins/tutorial/1_start.md)
     - [Measuring with sources](./plugins/tutorial/2_measuring.md)
-    - [Configuration Management](./plugins/tutorial/3_config.md)
+    - [A First Configuration](./plugins/tutorial/3_config.md)
     - [Transforming measurements](./plugins/tutorial/4_transforms.md)
     - [Writing with outputs](./plugins/tutorial/5_outputs.md)
 

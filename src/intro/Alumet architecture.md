@@ -45,7 +45,7 @@ It is the user-facing application that gathers the measurements and "does things
 
 ![](../resources/diagrams/alumet-agent-aggregate.png)
 
-We provide a standard agent (its code is in the `app-agent` crate) but you can also create custom agents. <!-- TODO tuto pour créer un agent personnalisé -->
+We provide a standard agent (its code is in the `app-agent` crate) but you can also create custom agents. <!-- TODO tutorial pour créer un agent personnalisé -->
 Refer to the [contributing guide](https://github.com/alumet-dev/alumet/blob/main/CONTRIBUTING.md) for more information about the content of our main Git repository.
 
 ## Concurrency and parallelism

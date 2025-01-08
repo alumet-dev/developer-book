@@ -89,7 +89,7 @@ The result looks like this:
 ```
 
 Since our counter is not related to a particular _resource_ nor _consumer_, we use the special value `LocalMachine`.
-It indicates that it's a "global" measurement, with the whole machine as a scope (here, "machine" is intentionnaly not precisely defined: if you're in a VM, it represents the VM, if you're running on a bare-metal node, it's this node).
+It indicates that it's a "global" measurement, with the whole machine as a scope (here, "machine" is intentionally not precisely defined: if you're in a VM, it represents the VM, if you're running on a bare-metal node, it's this node).
 
 Read more about the concept of _resource_ and _consumer_ here: [Metrics & Measurement Points](../metrics_measurements.md)
 

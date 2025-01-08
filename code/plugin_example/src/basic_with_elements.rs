@@ -10,12 +10,18 @@ use alumet::pipeline::elements::error::{PollError, TransformError, WriteError};
 use alumet::pipeline::elements::output::OutputContext;
 use alumet::pipeline::elements::transform::TransformContext;
 use alumet::pipeline::{trigger, Output, Source, Transform};
+use alumet::plugin::rust::{deserialize_config, serialize_config};
 use alumet::plugin::{rust::AlumetPlugin, AlumetPluginStart, ConfigTable};
 use alumet::resources::{Resource, ResourceConsumer};
 use alumet::units::Unit;
 use anyhow::Context;
+use serde::{Deserialize, Serialize};
 
-pub struct ExamplePlugin;
+// ANCHOR: plugin_struct
+pub struct ExamplePlugin {
+    config: Config,
+}
+// ANCHOR_END: plugin_struct
 
 impl AlumetPlugin for ExamplePlugin {
     fn name() -> &'static str {
@@ -26,13 +32,19 @@ impl AlumetPlugin for ExamplePlugin {
         env!("CARGO_PKG_VERSION") // gets the version from the Cargo.toml of the plugin crate
     }
 
+    // ANCHOR: plugin_default_config
     fn default_config() -> anyhow::Result<Option<ConfigTable>> {
-        Ok(None) // no config for the moment
+        let config = serialize_config(Config::default())?;
+        Ok(Some(config))
     }
+    // ANCHOR_END: plugin_default_config
 
-    fn init(_config: ConfigTable) -> anyhow::Result<Box<Self>> {
-        Ok(Box::new(ExamplePlugin))
+    // ANCHOR: plugin_init
+    fn init(config: ConfigTable) -> anyhow::Result<Box<Self>> {
+        let config = deserialize_config(config)?;
+        Ok(Box::new(ExamplePlugin { config }))
     }
+    // ANCHOR_END: plugin_init
 
     // ANCHOR: plugin_start
     // ANCHOR: plugin_start_head
@@ -65,8 +77,8 @@ impl AlumetPlugin for ExamplePlugin {
             counter: 0,
         };
 
-        // Configure how the source is triggered: Alumet will call the source every 1s
-        let trigger = trigger::builder::time_interval(Duration::from_secs(1)).build()?;
+        // Configure how the source is triggered: the interval depends on the config
+        let trigger = trigger::builder::time_interval(self.config.poll_interval).build()?;
 
         // Add the source to the measurement pipeline
         alumet.add_source(Box::new(source), trigger);
@@ -107,12 +119,24 @@ impl AlumetPlugin for ExamplePlugin {
     }
 }
 
-// ANCHOR: config
-
-struct ExampleConfig {
-    
+// ANCHOR: config_struct
+#[derive(Serialize, Deserialize)]
+struct Config {
+    /// Time between each activation of the counter source.
+    #[serde(with = "humantime_serde")]
+    poll_interval: Duration,
 }
-// ANCHOR_END: config
+// ANCHOR_END: config_struct
+
+// ANCHOR: config_default_impl
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            poll_interval: Duration::from_secs(1),
+        }
+    }
+}
+// ANCHOR_END: config_default_impl
 
 // ANCHOR: source
 // ANCHOR: source_struct

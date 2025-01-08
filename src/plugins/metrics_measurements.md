@@ -29,7 +29,7 @@ Sometimes, we need a scope that is more precise than the metric definition.
 For instance, when measuring the use of the CPU by the OS kernel, we are interested in knowing the value per CPU core.
 
 This could be implemented by creating one metric for each case: `kernel_cpu_usage_core0`, `kernel_cpu_usage_core1`, ...
-Some monitoring software use this strategy (such as `collectd`).
+Some monitoring tools use this strategy.
 However, it is is too limiting: it complicates the operations that you can apply on the data (think of filters, aggregates, etc.), and it does not scale well when you have multidimensional information to add to the measurements (CPU core id, hostname, etc.).
 
 Therefore, we have chosen a different model for Alumet.
