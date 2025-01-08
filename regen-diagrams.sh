@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 OUT_DIR=src/resources/diagrams
 OUT_BAK=src/resources/diagrams.bak
 export TMP_DIR=/tmp/alumet-developer-book-diagrams
-rm -r "$TMP_DIR" || true
+rm -r "$TMP_DIR" 2> /dev/null || true
 mkdir -p "$TMP_DIR/diagrams"
 
 # BEWARE we cannot just loop on the output of find, see https://unix.stackexchange.com/questions/9496/looping-through-files-with-spaces-in-the-names
@@ -28,7 +28,7 @@ find diagrams -name '*.drawio' -print0 | {
 
 # Move the temporary directory to the output directory, so that the preview of the book (created by mdbook serve) only updates once
 echo "Moving $TMP_DIR/diagrams to $OUT_DIR..."
-rm -r "$OUT_BAK" || true
+rm -r "$OUT_BAK" 2> /dev/null || true
 mv "$OUT_DIR" "$OUT_BAK"
 mv "$TMP_DIR"/diagrams "$OUT_DIR"
 
