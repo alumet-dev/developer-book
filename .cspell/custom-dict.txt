@@ -1,4 +1,6 @@
 alumet
+acpi
+ACPI
 Atos
 Eviden
 github
@@ -17,6 +19,11 @@ regen
 runnable
 rustc
 rustdoc
+rustup
 sysfs
 UCUM
 urandom
+asciinema
+multicore
+créer
+personnalisé

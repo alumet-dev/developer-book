@@ -1,3 +1,16 @@
+# IDE settings
 .vscode/*
 !.vscode/cspell.json
-book
+
+# Generated book
+/book
+
+# Compiled code
+target/
+
+# Drawio temporary files
+*.bkp
+/src/resources/diagrams.bak
+
+# Alumet repository
+/alumet

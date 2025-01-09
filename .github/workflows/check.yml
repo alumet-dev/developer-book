@@ -45,11 +45,17 @@ jobs:
         run: echo rust-version="$(rustc --version | awk '{print $2}' )" >> $GITHUB_OUTPUT
 
       - name: build app-agent
-        run: |
-          cargo build
+        run: cargo build
         working-directory: alumet/app-agent
         env:
           RUSTFLAGS: -Awarnings
+
+      - name: build plugin lib
+        run: |
+          ls -l
+          cargo add alumet --path ../../../alumet/alumet
+          cargo build
+        working-directory: developer-book/code/plugin_example
 
       - name: Run mdbook test
         env:
