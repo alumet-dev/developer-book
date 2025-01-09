@@ -6,7 +6,7 @@ This repository contains the "Alumet developer book", a guide for tinkerers, eng
 
 ## Reading the book
 
-The book is available online (via GitHub pages) here: https://alumet-dev.github.io/user-book/
+The book is available online here: https://alumet-dev.github.io/developer-book
 
 ## Generating the book
 
