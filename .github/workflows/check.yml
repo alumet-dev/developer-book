@@ -52,9 +52,10 @@ jobs:
 
       - name: build plugin lib
         run: |
-          cargo add alumet --path ../../alumet/alumet
+          ls -l
+          cargo add alumet --path ../../../alumet/alumet
           cargo build
-        working-directory: code/plugin_example
+        working-directory: developer-book/code/plugin_example
 
       - name: Run mdbook test
         env:
