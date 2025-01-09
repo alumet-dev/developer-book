@@ -1,19 +1,12 @@
-use std::fs::File;
-use std::io::BufWriter;
-use std::time::{Duration, SystemTime};
+use std::time::Duration;
 
-use alumet::measurement::{
-    MeasurementAccumulator, MeasurementBuffer, MeasurementPoint, Timestamp, WrappedMeasurementValue,
-};
-use alumet::metrics::{MetricId, RawMetricId, TypedMetricId};
-use alumet::pipeline::elements::error::{PollError, TransformError, WriteError};
-use alumet::pipeline::elements::output::OutputContext;
-use alumet::pipeline::elements::transform::TransformContext;
-use alumet::pipeline::{trigger, Output, Source, Transform};
+use alumet::measurement::{MeasurementAccumulator, MeasurementPoint, Timestamp};
+use alumet::metrics::TypedMetricId;
+use alumet::pipeline::elements::error::PollError;
+use alumet::pipeline::{trigger, Source};
 use alumet::plugin::{rust::AlumetPlugin, AlumetPluginStart, ConfigTable};
 use alumet::resources::{Resource, ResourceConsumer};
 use alumet::units::Unit;
-use anyhow::Context;
 
 pub struct ExamplePlugin;
 

@@ -3,11 +3,14 @@
 !.vscode/cspell.json
 
 # Generated book
-book
+/book
 
 # Compiled code
 target/
 
 # Drawio temporary files
 *.bkp
-src/resources/diagrams.bak
+/src/resources/diagrams.bak
+
+# Alumet repository
+/alumet

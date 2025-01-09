@@ -6,6 +6,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 log = "0.4"
-alumet = { path = "../../../ALUMET-git/alumet" }
+alumet = { version = "0.7.0", path = "../../alumet/alumet" }
 serde = { version = "1.0.217", features = ["derive"] }
 humantime-serde = "1.1.1"
