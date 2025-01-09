@@ -7,7 +7,7 @@ Its measurement pipeline does not carry raw values, but _measurement points_ whi
 
 The following diagram represents the data contained in a point, and its relation with metrics. It is explained in details in the next sections.
 
-![](../../resources/diagrams/alumet-measurement-points.png)
+![](../resources/diagrams/alumet-measurement-points.png)
 
 ## Metrics
 
