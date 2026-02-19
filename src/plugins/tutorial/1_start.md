@@ -146,11 +146,11 @@ let plugins = static_plugins![
 ];
 ```
 
-Note: with cargo, we use the name that we declared for the crate, `example-plugin` (look at `example-plugin/Cargo.toml`), but in code we use `plugin_example`. This is because hyphens are not valid characters in Rust identifiers, hence they are converted to underscores.
+Note: with cargo, we use the name that we declared for the crate, `example-plugin` (look at `example-plugin/Cargo.toml`), but in code we use `example_plugin`. This is because hyphens are not valid characters in Rust identifiers, hence they are converted to underscores.
 
 Finally, you can test your plugin! Run the local agent:
 ```sh
-cargo run --bin alumet-local-agent --features local_x86
+cargo run --bin alumet-agent
 ```
 
 You should see your plugin in the list of enabled plugins, and it should print the message `Hello!` (from its `start` method).
