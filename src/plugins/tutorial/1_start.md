@@ -24,57 +24,65 @@ You should see several files and folders:
 
 ```bash
 .
+├── agent/
+├── core/
+├── plugins/
+├── readme/
+├── separate-tests/
+├── target/
+├── AUTHORS.md
+├── CONTRIBUTING.md
 ├── Cargo.lock
 ├── Cargo.toml
 ├── LICENSE
 ├── LICENSE.fr.txt
 ├── README.md
-├── alumet/
-├── app-agent/
-├── plugin-csv/
-├── plugin-nvidia/
-├── plugin-rapl/
-├── plugin-relay/
-├── target/
 ├── ...
 ```
 
-Let's make a crate for your plugin! By convention, plugins contained in the main repository should be prefixed with `plugin-`:
+Let's make a crate for your plugin! Plugins are contained in the `./plugins/` directory :
 
 ```bash
-cargo init --lib plugin-example
+cd plugins/
+cargo init --lib example-plugin
 ```
 
-This will create a new directory named `plugin-example`, with some files in it.
+This will create a new directory named `example-plugin`, with some files in it.
 Cargo should also modify the root `Cargo.toml` to add your plugin to the list of `members`, like this:
 
 ```toml
+[workspace]
 members = [
     "alumet",
     # ... other crates here
     # the line below has been added automatically
-    "plugin-example",
+    "example-plugin",
 ]
 ```
 
-Finally, use `cargo add` to declare some dependencies. Every plugin needs to depend on at least `alumet` and `anyhow`. We also add `log` to display nice log messages (avoid `println!` in Alumet!).
+Finally, use `cargo add` inside your plugin folder to declare some dependencies. Every plugin needs to depend on at least `alumet` and `anyhow`. We also add `log` to display nice log messages (avoid `println!` in Alumet!).
 
 ```sh
+cd example-plugin/
 cargo add alumet anyhow log
 ```
 
-Make sure that the `alumet` dependency is local and does _not_ include a version number:
+The `./plugins/example-plugin/Cargo.toml` config file should now look like this:   
 
 ```toml
 [package]
 name = "plugin-example"
 version = "0.1.0"
-edition = "2021"
+edition.workspace = true
+repository.workspace = true
 
 [dependencies]
-alumet = { path = "../alumet" } # LOCAL + NO VERSION
-anyhow = "1.0"
-log = "0.4"
+alumet.workspace = true
+anyhow.workspace = true
+log.workspace = true
+
+[lints]
+workspace = true
 ```
 
 ### Creating the plugin in a separate repository
@@ -82,7 +90,7 @@ log = "0.4"
 Initialize a crate with cargo:
 
 ```bash
-cargo init --lib plugin-example
+cargo init --lib example-plugin
 ```
 
 Finally, use `cargo add` to declare some dependencies. Every plugin needs to depend on at least `alumet` and `anyhow`. We'll also add `log` to display nice log messages (avoid `println!` in Alumet!).
@@ -121,14 +129,14 @@ If you develop your plugin outside of the main Alumet repository, you probably h
 2. Add your plugin as a dependency of the agent.
 3. Edit one or two lines or code to make the agent load your plugin.
 
-For this tutorial, we will modify the "local" agent, which works on its own (unlike the relay mode for instance). In the Alumet repository, open a Terminal in the `app-agent` folder.
+For this tutorial, we will modify the "local" agent, which works on its own (unlike the relay mode for instance). In the Alumet repository, open a Terminal in the `agent` folder.
 
 Add your plugin to dependencies of the agent:
 ```sh
-cargo add plugin-example
+cargo add example-plugin
 ```
 
-Open `app-agent/src/bin/local.rs` and add your plugin to the list of plugins. For a first test, you can remove other plugins in order to see the messages of your plugin more easily. Let's keep the CSV plugin, though. It will be useful to see what the measurements produced by your plugin (in the next steps of the tutorial).
+Open `agent/src/bin/main.rs` and add your plugin to the list of plugins. For a first test, you can remove other plugins in order to see the messages of your plugin more easily. Let's keep the CSV plugin, though. It will be useful to see what the measurements produced by your plugin (in the next steps of the tutorial).
 ```diff
 let plugins = static_plugins![
 -    plugin_rapl::RaplPlugin,
@@ -138,7 +146,7 @@ let plugins = static_plugins![
 ];
 ```
 
-Note: with cargo, we use the name that we declared for the crate, `plugin-example` (look at `plugin-example/Cargo.toml`), but in code we use `plugin_example`. This is because hyphens are not valid characters in Rust identifiers, hence they are converted to underscores.
+Note: with cargo, we use the name that we declared for the crate, `example-plugin` (look at `example-plugin/Cargo.toml`), but in code we use `plugin_example`. This is because hyphens are not valid characters in Rust identifiers, hence they are converted to underscores.
 
 Finally, you can test your plugin! Run the local agent:
 ```sh
